@@ -1,0 +1,19 @@
+{
+  "description": "This describes the layout."
+  "version": "0.0.1",
+  "contributors": [
+    {
+      "name": "Vernon Kesner",
+      "email": "vernonkesner@gmail.com"
+    }
+  ],
+  "patterns": [
+    "pattern"
+  ],
+  "modules": [
+    "modulename"
+  ],
+  "data": {
+    "bodyClass": "patternguide"
+  }
+}

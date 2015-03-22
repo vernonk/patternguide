@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var app = require('../patternguide/node/app');
+
+app.listen( 3000 );
