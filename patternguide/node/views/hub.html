@@ -1,6 +1,13 @@
-<%= view( "partials/header" ) %>
+<%= helpers.render( "partials/header.html", { tpl: "jade" }, function ( html ) {
+    return html;
+}) %>
 
-<h1>Hi there!</h1>
-<p>I'm a template with a name of <%= name %></p>
+<h1><%= title %></h1>
+<p><%= message %></p>
 
-<%= view( "partials/footer" ) %>
+<p>For what I care the tpl option in the helpers.view above isn't for my particular
+  piece but will be nice to use the view helper when rendering component partials
+  so that end users can choose which template language to use. Drive this in the
+  patternguide config.</p>
+
+<%= helpers.render( "partials/footer.html" ) %>
