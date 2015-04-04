@@ -7,10 +7,10 @@ module.exports = {
   proxySecure: true, // route proxy requests through https, default true
 
 
-  // should routes be sent from somewhere other than root?
+  // should routes be sent from somewhere other than patternguide/?
   // this is useful if your site directories conflict with
   // patternguide (e.g. layouts, patterns, etc )
-  routePrefix: "", // default ''
+  routePrefix: "", // default 'patternguide' <- allows for reverseproxy to serve homepage
 
   // what templating engine will be used for partials and layouts?
   // e.g. lodash, underscore, handlebars, hogan, ejs

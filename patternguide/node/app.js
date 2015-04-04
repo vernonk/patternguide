@@ -21,23 +21,14 @@ patternguide
 patternguide
   .use( express.static( path.join( __dirname, "..", "..", "localized" ) ) ) // use localized files first, then source
   .use( express.static( path.join( __dirname, "..", "..", "dist" ) ) )
-  .use( routePrefix + "api", require( path.join( __dirname, "routes/api-core" ) ) )
+  .use( path.join( routePrefix, "api" ), require( path.join( __dirname, "routes/api-core" ) ) )
   .use( routePrefix, require( path.join( __dirname, "routes/home" ) ) )
-  .use( routePrefix + "elements", require( path.join( __dirname, "routes/elements" ) ) )
-  .use( routePrefix + "modules", require( path.join( __dirname, "routes/page-core" ) ) )
-  .use( routePrefix + "patterns", require( path.join( __dirname, "routes/page-core" ) ) )
-  .use( routePrefix + "layouts", require( path.join( __dirname, "routes/page-core" ) ) )
-  .use( routePrefix + "wires", require( path.join( __dirname, "routes/page-core" ) ) )
-  .use( routePrefix + "comps", require( path.join( __dirname, "routes/page-core" ) ) )
+  .use( path.join( routePrefix, "elements" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( routePrefix, "modules" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( routePrefix, "patterns" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( routePrefix, "layouts" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( routePrefix, "wires" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( routePrefix, "comps" ), require( path.join( __dirname, "routes/elements" ) ) )
   .use( "*", require( path.join( __dirname, "./routes/reverse-proxy" ) ) );
-
-  // /elements
-  // /modules/
-  // /elements/name
-  // /patterns/
-  // /layouts/
-  // /wires/layoutname
-  // /comps/layoutname <- comp generator, see Trello
-  // /elements/name/any/number/of/routers/out/it/will/go/
 
 module.exports = patternguide;
