@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
-var app = require('../patternguide/node/app');
+var app = require('../patternguide/node/app'),
+    server = app.listen( 3000, function () {
 
-app.listen( 3000 );
+      var host = server.address().address,
+          port = server.address().port;
+
+      console.log( "PatternGuide running at http://%s:%s", host, port );
+
+    });
