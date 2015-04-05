@@ -1,11 +1,39 @@
 #!/usr/bin/env node
+var path = require( "path" ),
+    cli = require( "cli" ).enable( "status" ),
+    colors = require( "colors" ),
+    spawn = require( "child_process" ).spawn,
+    app = require( path.join( __dirname, "..", "patternguide/node/app" ) ),
+    children = {};
 
-var app = require('../patternguide/node/app'),
-    server = app.listen( 3000, function () {
+// patternguide cli options
+cli.parse({
+  build: [ "b", "Build a static version of the library" ],
+  dumb: [ "d", "Disable file watch mode (js, scss)" ], // dumb in the sense it doesn't know what's going on
+  minify: [ "m", "Perform an initial gulp minify" ],
+  port: [ "p", "Start server on this port", "number", 3000 ],
+  proxyhost: [ "ph", "Host to use as reverse proxy, overrides PatternGuide config" ],
+  verbose: [ "v", "Verbose mode (expanded logging)"]
+});
 
-      var host = server.address().address,
-          port = server.address().port;
+// set up our cli
+cli.main(function ( args, opts ) {
 
-      console.log( "PatternGuide running at http://%s:%s", host, port );
+  if ( opts.verbose ) patternguide.set( "config.verbose", false );
+  if ( opts.proxyHost ) patternguide.set( "config.proxyHost", opts.proxyHost );
 
-    });
+  /**
+  * What other processes need to be spawned?
+  *   - Watchers (sass, js, partials, configs)
+  *
+  **/
+
+  // spawn our server
+  server = app.listen( 3000, function () {
+    var host = ( server.address().address === "::" ) ? "localhost" : server.address().address,
+        port = server.address().port;
+
+    cli.ok( "PatternGuide running at http://" + host + ":" + port + "\n" );
+  });
+
+});
