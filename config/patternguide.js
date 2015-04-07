@@ -2,6 +2,8 @@
 // CLI Overrides should be available for most of these options outside of probably routePrefix... possibly even that.
 module.exports = {
 
+  baseUrl: "http://localhost:3000", // base url, default 'localhost'
+
   // PatternGuide supports proxy debugging giving you a seamless local environment
   proxyHost: "", // base host to reverse proxy against, default ''
   proxySecure: true, // route proxy requests through https, default true
