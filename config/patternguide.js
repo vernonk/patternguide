@@ -18,7 +18,7 @@ module.exports = {
   // e.g. lodash, underscore, handlebars, hogan, ejs
   // all template engines supported by consolidate.js are supported in patternguide
   // https://github.com/tj/consolidate.js#supported-template-engines
-  templating: "lodash", // default 'lodash'
+  templating: "swig", // default 'swig'
   // cache partials or layouts? Not sure why you would but hey...
   templateCache: false, // default false
 
