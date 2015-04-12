@@ -22,12 +22,7 @@ cli.main(function ( args, opts ) {
   if ( opts.verbose ) patternguide.set( "config.verbose", false );
   if ( opts.proxyHost ) patternguide.set( "config.proxyHost", opts.proxyHost );
 
-  /**
-  * What other processes need to be spawned?
-  *   - Watchers (sass, js, partials, configs)
-  *
-  **/
-
+  // What other processes need to be spawned? Watchers, etc.
   // spawn our server
   server = app.listen( 3000, function () {
     var host = ( server.address().address === "::" ) ? "localhost" : server.address().address,

@@ -1,16 +1,14 @@
 /**
 * These routes are for the UI pages rendered by PatternGuide
 **/
-var express = require( "express" ),
-    path = require( "path" ),
+var path = require( "path" ),
+    request = require( "request" ),
+    express = require( "express" ),
     router = express.Router(),
+    config = patternguide.get( "config" ),
+    baseUrl = config.baseUrl,
+    baseApiUrl = baseUrl + "/api/elements/",
     viewHelpers = require( path.join( __dirname, "..", "utils/view-helpers" ) );
-
-    // middleware specific to this router
-    // router.use(function timeLog(req, res, next) {
-    //   console.log('Time: ', Date.now());
-    //   next();
-    // })
 
 // /elements
 // /modules/
@@ -21,71 +19,62 @@ var express = require( "express" ),
 // /comps/layoutname <- comp generator, see Trello
 // /elements/name/any/number/of/routers/out/it/will/go/
 
-// router is defined with /elements and such as a base
-// this is the remaining bits that come through
-// such as name/id
-
 // this router is specific to /elements anything shared should
 // be included util middleware between pieces this way there
-// are zero conditionals in the routes, it's all specific
+// are zero conditionals based on responsibility in the routes, it's all specific
 // to what elements need. No other concerns.
+
+
+/**************************************
+* GET routes
+***************************************/
+
 router.get( "/", function ( req, res ) {
-
-  res.render( "hub", {
-    title: "hey",
-    message: "hello world",
-    helpers: viewHelpers
+  // get list from api
+  request( baseApiUrl, function ( err, resp, body ) {
+    if ( err ) throw err;
+    if ( resp.statusCode === 200 ) {
+      res.render( "hub", {
+        title: "Elements Hub Page",
+        message: "The elements hub pages message. Read me?",
+        helpers: viewHelpers,
+        data: body
+      });
+    }
   });
-
-
-
 });
 
 router.get( "/:group", function ( req, res ) {
-  res.send( "Elements group page: " + req.params.group );
+  request( baseApiUrl + req.params.group, function ( err, resp, body ) {
+    if ( err ) throw err;
+    if ( resp.statusCode === 200 ) {
+      res.render( "hub", {
+        title: "Elements Group Page",
+        message: "Elements Group Page",
+        helpers: viewHelpers,
+        data: body
+      });
+    }
+  });
 });
 
 router.get( "/:group/:item", function ( req, res ) {
-  res.send( "Elements item page: " + req.params.item + " in the " + req.params.group + " group" );
+  request( baseApiUrl + req.params.group + "/" + req.params.item, function ( err, resp, body ) {
+    if ( err ) throw err;
+    if ( resp.statusCode === 200 ) {
+      res.render( "elements-item", {
+        title: "Elements Item Page",
+        message: "Elements Item Page",
+        helpers: viewHelpers,
+        data: body
+      });
+    }
+  });
 });
 
-// this pattern should match any path, explicity with reasoning like above.
-// router.get( /([A-Za-z0-9\-_]+)(?:\/)?([A-Za-z0-9\-_]+)?(?:\/)?/, function ( req, res ) {
-//   console.log( req.url );
-//   res.send( "Other page" );
-//   // var type = this.captures[ 0 ],
-//   //     name = this.captures[ 1 ],
-//   //     // not used, included as a reference since tool was heavily inspired by the work
-//   //     atomicDesign = [ "atoms", "molecules", "organisms", "templates", "pages" ],
-//   //     // pages are not included in patternguide as it's a different concern
-//   //     // this will hopefully be a sister tool in the future that uses patternguide's API
-//   //     // to drive the modular creation of a static site. :)
-//   //     allowedTypes = [ "elements", "modules", "patterns", "layouts" ],
-//   //     isAllowedType = type && allowedTypes.indexOf( type ) !== -1,
-//   //     isHub = ( type && name ) ? false : true;
-//   //     // view = views.init(); // something like this, then view can use the methods
-//   //
-//   // if ( isAllowedType && isHub ) {
-//   //   // hub view
-//   //   // yield views.render({
-//   //   //   ctx: this,
-//   //   //   type: type,
-//   //   //   path: "hub"
-//   //   // });
-//   //   //
-//   //   // yield next;
-//   // } else if ( isAllowedType && name ) {
-//   //   // specific page
-//   //   // this.body = "SPECIFIC PAGE FOR " + type + " : " + name;
-//   //   //
-//   //   // yield next;
-//   //
-//   // } else {
-//   //   return this.status = 404;
-//   //   // yield next;
-//   // }
-//
-// });
+/**************************************
+* POST routes
+***************************************/
 
 router.post( /([A-Za-z0-9\-_]+)(?:\/)?([A-Za-z0-9\-_]+)?(?:\/)?/, function ( req, res ) {
 
@@ -104,9 +93,19 @@ router.post( /([A-Za-z0-9\-_]+)(?:\/)?([A-Za-z0-9\-_]+)?(?:\/)?/, function ( req
 
   }
 
-
-  // yield next;
 });
+
+
+/**************************************
+* PUT routes
+***************************************/
+
+
+
+/**************************************
+* DELETE routes
+***************************************/
+
 
 // Finally export our router
 module.exports = router;
