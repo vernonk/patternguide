@@ -8,6 +8,7 @@
 var fs = require( "fs" ),
     path = require( "path" ),
     _ = require( "lodash" ),
+    async = require( "async" ),
     express = require( "express" ),
     router = express.Router();
 
@@ -22,13 +23,16 @@ var fs = require( "fs" ),
 //comps
 //wires
 
-const IGNORE = [ ".DS_Store" ];
+const IGNORE = [ ".DS_Store" ],
+      PATHTOROOT = path.join( __dirname, "..", "..", ".." );
 
-// Elements base, return full list
-router.get( "/elements", function ( req, res ) {
-
-  var resp = [],
-      elementGroups = _.remove( fs.readdirSync( path.join( __dirname, "..", "..", "..", "src/elements" ) ),
+// Base API routes
+// var bases = [ "elements", "modules", "patterns", "layouts", "wires", "comps" ];
+router.get( "/:base", function ( req, res ) {
+  // base route for now, once wires & comps are getting there extend & check base further
+  var base = req.params.base,
+      resp = [],
+      elementGroups = _.remove( fs.readdirSync( path.join( PATHTOROOT, "src", base ) ),
                                 function ( dir ) {
                                   return IGNORE.indexOf( dir ) === -1;
                                 });
@@ -37,7 +41,7 @@ router.get( "/elements", function ( req, res ) {
     resp[ i ] = {};
     resp[ i ].id = i;
     resp[ i ].name = elementGroups[ i ];
-    resp[ i ].items = _.remove( fs.readdirSync( path.join( __dirname, "..", "..", "..", "src/elements", elementGroups[ i ] ) ),
+    resp[ i ].items = _.remove( fs.readdirSync( path.join( PATHTOROOT, "src", base, elementGroups[ i ] ) ),
                               function ( dir ) {
                                 return IGNORE.indexOf( dir ) === -1;
                               });
@@ -46,10 +50,10 @@ router.get( "/elements", function ( req, res ) {
   res.json( resp );
 });
 
-// Element group page, another hub but more filtered
-router.get( "/elements/:group", function ( req, res ) {
+// Filtered Group
+router.get( "/:base/:group", function ( req, res ) {
   var resp = [],
-      elementGroups = _.remove( fs.readdirSync( path.join( __dirname, "..", "..", "..", "src/elements", req.params.group ) ),
+      elementGroups = _.remove( fs.readdirSync( path.join( PATHTOROOT, "src", req.params.base, req.params.group ) ),
                                 function ( dir ) {
                                   return IGNORE.indexOf( dir ) === -1;
                                 });
@@ -64,67 +68,56 @@ router.get( "/elements/:group", function ( req, res ) {
   res.json( resp );
 });
 
-// Get the details about a specific element, render just the MD?
-// Look for examples dir and iframe in?
-router.get( "/elements/:group/:item", function ( req, res ) {
+// Get the details about a specific element
+router.get( "/:base/:group/:item", function ( req, res ) {
 
-  var pathFromRoot = path.join( __dirname, "..", "..", "..", "src/elements", req.params.group, req.params.item ),
-      paths = {
+  var pathFromRoot = path.join( PATHTOROOT, "src", req.params.base, req.params.group, req.params.item ),
+      filemap = {
         readme: path.join( pathFromRoot, "readme.md" ),
         config: path.join( pathFromRoot, "config.json" ),
-        styles: path.join( pathFromRoot, "styles", req.params.item + ".scss" ),
+        itemView: path.join( pathFromRoot, "item.html" ),
+        collectionView: path.join( pathFromRoot, "collection.html" ),
+        scss: path.join( pathFromRoot, "styles", req.params.item + ".scss" ),
         js: path.join( pathFromRoot, "js", req.params.item + ".js" ),
         tests: path.join( pathFromRoot, "js", "tests", "spec.js" ),
       },
-      resp = {
+      response = {
         id: req.params.item,
+        readme: null,
+        config: null,
+        itemView: null,
+        collectionView: null,
+        scss: null,
         css: null,
         js: null,
-        tests: null,
-        partial: null
+        tests: null
+      }
+      sanitize = function ( str ) {
+        return str.replace( /(?:src)([A-Za-z\-\/]+)/, function ( full, path ) {
+          return path;
+        });
       };
 
-  // get the readme
-  if ( fs.existsSync( paths.readme ) ) {
-    resp.readme = fs.readFileSync( paths.readme, { encoding: "utf8" } );
-  } else {
-    resp.readme = null;
+  for ( var key in filemap ) {
+    if ( filemap.hasOwnProperty( key ) ) {
+      if ( fs.existsSync( filemap[ key ] ) ) {
+        // if we are the partial or config, we'll read the file in
+        // otherwise, if it's the css, js or tests we'll pass the string back
+        if ( key === "readme" || key === "config" ) {
+          response[ key ] = fs.readFileSync( filemap[ key ], { encoding: "utf8" } );
+        } else {
+          response[ key ] = filemap[ key ].substr( filemap[ key ].indexOf( "src/" ) + 3 );
+          if ( key === "scss" ) {
+            response.css = filemap[ key ]
+                            .substr( filemap[ key ].indexOf( "src/" ) + 3 )
+                            .replace( ".scss", ".css");
+          }
+        }
+      }
+    }
   }
 
-  // get the config
-  if ( fs.existsSync( paths.config ) ) {
-    resp.config = fs.readFileSync( paths.config, { encoding: "utf8" } );
-  } else {
-    resp.config = null;
-  }
-
-  // do we have a partial?
-  if ( fs.existsSync( paths.partial ) ) {
-    resp.partial = fs.readFileSync( paths.partial, { encoding: "utf8" } );
-  }
-
-  // do we have any styles?
-  if ( fs.existsSync( paths.styles ) ) {
-    paths.styles.replace( /(?:src)([A-Za-z\-\/]+)/, function ( full, path ) {
-      resp.css = path + ".css";
-    });
-  }
-
-  // do we have any functionality?
-  if ( fs.existsSync( paths.js ) ) {
-    paths.js.replace( /(?:src)([A-Za-z\-\/\.]+)/, function ( full, path ) {
-      resp.js = path;
-    });
-  }
-
-  // do we have any unit tests?
-  if ( fs.existsSync( paths.tests ) ) {
-    paths.tests.replace( /(?:src)([A-Za-z\-\/\.]+)/, function ( full, path ) {
-      resp.tests = path;
-    });
-  }
-
-  res.json( resp );
+  res.json( response );
 })
 
 
