@@ -14,7 +14,7 @@ patternguide.engine( "html", cons[ pgConfig.templating ] );
 // set up our app varaibles
 patternguide
   .set( "config", pgConfig )
-  .set( "view engine", "html" )
+  .set( "view engine", pgConfig.templatingFileExt )
   .set( "views", path.join( __dirname, "views" ) );
 
 // piece out how our proxied, style guide and API paths will be matched

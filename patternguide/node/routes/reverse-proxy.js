@@ -13,7 +13,7 @@ router.get( "*", function ( req, res ) {
 
   var request = require( "request" ),
       colors = require( "colors" ),
-      proxyHost = pgConfig.proxyHost,
+      proxyHost = pgConfig.proxyHost || "localhost",
       proxyPort = ( pgConfig.proxySecure ) ? 443 : 80,
       proxyProtocol = ( pgConfig.proxySecure ) ? "http://" : "http://",
       http = ( pgConfig.proxySecure ) ? require( "https" ) : require( "http" );
