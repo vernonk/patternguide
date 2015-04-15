@@ -1,0 +1,24 @@
+<%- include partials/header %>
+
+<% data = ( data ) ? JSON.parse( data ) : []; %>
+
+<h1><%= title %></h1>
+<p><%= message %></p>
+<ul>
+<% for ( var i = 0, l = data.length; i < l; i++ ) { %>
+  <li>
+    <p><strong>Element info:</strong></p>
+    <ul>
+      <li><strong>id:</strong> <%= data[ i ].id %></li>
+      <li><strong>name:</strong> <%= data[ i ].name %></li>
+      <% if ( data[ i ].items ) { %>
+        <li><strong>items:</strong> <%= data[ i ].items.join( ", " ) %></li>
+      <% } %>
+    </ul>
+  </li>
+<% } %>
+</ul>
+
+<script>window.pg = {}; window.pg.viewdata = <%- JSON.stringify( data ) %>;</script>
+
+<%- include partials/footer %>

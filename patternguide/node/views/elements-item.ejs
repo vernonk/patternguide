@@ -1,0 +1,23 @@
+<% var data = ( data ) ? JSON.parse( data ) : []; %>
+
+<%= helpers.render( "partials/header.html", { tpl: "jade" }, function ( html ) {
+    return html;
+}) %>
+
+<h1><%= title %></h1>
+<p><%= message %></p>
+
+<h2>Item Info:</h2>
+<ul>
+  <li><strong>id:</strong> <%= data.id %></li>
+  <li><strong>readme:</strong> <%= data.readme %></li>
+  <li><strong>config:</strong> <%= data.config %></li>
+  <li><strong>itemView:</strong> <%= data.itemView %></li>
+  <li><strong>collectionView:</strong> <%= data.collectionView %></li>
+  <li><strong>scss:</strong> <%= data.scss %></li>
+  <li><strong>css:</strong> <%= data.css %></li>
+  <li><strong>js:</strong> <%= data.js %></li>
+  <li><strong>tests:</strong> <%= data.tests %></li>
+</ul>
+
+<%= helpers.render( "partials/footer.html" ) %>
