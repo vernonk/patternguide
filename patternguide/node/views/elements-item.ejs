@@ -2,21 +2,23 @@
 
 <% data = ( data ) ? JSON.parse( data ) : []; %>
 
-<h1><%= title %></h1>
-<p><%= message %></p>
+<main>
+  <h1><%= title %></h1>
+  <p><%= message %></p>
 
-<h2>Item Info:</h2>
-<ul>
-  <li><strong>id:</strong> <%= data.id %></li>
-  <li><strong>readme:</strong> <%= data.readme %></li>
-  <li><strong>config:</strong> <%= data.config %></li>
-  <li><strong>itemView:</strong> <%= data.itemView %></li>
-  <li><strong>collectionView:</strong> <%= data.collectionView %></li>
-  <li><strong>scss:</strong> <%= data.scss %></li>
-  <li><strong>css:</strong> <%= data.css %></li>
-  <li><strong>js:</strong> <%= data.js %></li>
-  <li><strong>tests:</strong> <%= data.tests %></li>
-</ul>
+  <h2>Item Info:</h2>
+  <ul>
+    <li><strong>id:</strong> <%= data.id %></li>
+    <li><strong>readme:</strong> <%= data.readme %></li>
+    <li><strong>config:</strong> <%= data.config %></li>
+    <li><strong>itemView:</strong> <%= data.itemView %></li>
+    <li><strong>collectionView:</strong> <%= data.collectionView %></li>
+    <li><strong>scss:</strong> <%= data.scss %></li>
+    <li><strong>css:</strong> <%= data.css %></li>
+    <li><strong>js:</strong> <%= data.js %></li>
+    <li><strong>tests:</strong> <%= data.tests %></li>
+  </ul>
+</main>
 
 <script>window.pg.viewtype="elements-item"</script>
 

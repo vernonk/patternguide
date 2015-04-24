@@ -1,10 +1,13 @@
 #!/usr/bin/env node
-var path = require( "path" ),
+var fs = require( "fs" ),
+    path = require( "path" ),
+    bs = require( "browser-sync" ).create(),
     cli = require( "cli" ).enable( "status" ),
     colors = require( "colors" ),
+    gulp = require( "gulp" ),
     spawn = require( "child_process" ).spawn,
     app = require( path.join( __dirname, "..", "patternguide/node/app" ) ),
-    children = {};
+    server, children = {};
 
 // patternguide cli options
 cli.parse({
@@ -19,16 +22,117 @@ cli.parse({
 // set up our cli
 cli.main(function ( args, opts ) {
 
-  if ( opts.verbose ) patternguide.set( "config.verbose", false );
-  if ( opts.proxyHost ) patternguide.set( "config.proxyHost", opts.proxyHost );
+  if ( opts.verbose ) patternguide.set( "config" ).verbose = false;
+  if ( opts.proxyHost ) patternguide.set( "config" ).proxyHost = opts.proxyHost;
 
-  // What other processes need to be spawned? Watchers, etc.
-  // spawn our server
-  server = app.listen( 3000, function () {
+  // take an array of paths from root to create
+  function makedirs( arr ) {
+    arr.forEach(function ( val ) {
+      try {
+        fs.statSync( path.join( __dirname, val ) );
+        opts.verbose && cli.ok( val + " already exists, doing nothing." );
+      } catch ( e ) {
+        opts.verbose && cli.ok( "Making " + val + " directory now." );
+        fs.mkdirSync( path.join( __dirname, val ) );
+      }
+    });
+  }
+
+  // simple function to determine if stdout is Gulp meta info that we only
+  // want to include when we are in verbose mode.
+  function isGulpMetaOutput ( output ) {
+    output = output.toString();
+    // strings use indexOf, regex uses test
+    var gulpMetaPatterns = [
+      "Starting",
+      "Finished",
+      "Using gulpfile"
+    ], i, l;
+    for ( i = 0, l = gulpMetaPatterns.length; i < l; i++ ) {
+      if ( typeof gulpMetaPatterns[ i ] === "string" ) {
+        if ( output.indexOf( gulpMetaPatterns[ i ] ) !== -1 ) {
+          return true;
+        }
+      } else if ( gulpMetaPatterns[ i ].test( output ) ) {
+        return true;
+      }
+    }
+  }
+
+  // make sure dist, localized and sandbox dirs exist
+  makedirs( [ "localized", "dist", "sandbox" ] );
+
+  if ( !opts.dumb ) {
+    children.watchers = spawn( "gulp", [ "watchers" ] );
+    children.watchers.stdout.on( "data", function ( data ) {
+      data = data.toString();
+      var modifiedFile, modifiedFileType;
+      if ( opts.verbose ) {
+        cli.ok( data );
+      } else {
+        if ( !isGulpMetaOutput( data ) ) {
+          cli.ok( data );
+        }
+      }
+      // need to reload browsersync from in here
+      // just reload the filetype that was being watched
+      // going to match the filename in a watch changed message
+      // also matches "gulpfile.js" message but
+      // that should be ignored by the "ignored" set when not in verbose
+      modifiedFile = data.match( /([^\/]+)\.(\w+)/ );
+      modifiedFileType = ( modifiedFile ) ? modifiedFile[ 0 ].substr( modifiedFile[ 0 ].lastIndexOf( "." ) ) : "";
+
+      if ( modifiedFile && modifiedFile[ 0 ] !== "gulpfile.js" ) {
+        console.log( "BrowserSync should br reloading all " + modifiedFileType + " files." );
+        bs.reload( "**/*." + modifiedFileType );
+      }
+
+    });
+    children.watchers.stderr.on( "data", function ( data ) {
+      console.log( "ERROR!", data );
+    });
+    children.watchers.on( "close", function ( data ) {
+      console.log( "CLOSE!", data );
+    });
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // fn to get browser-sync server running, using created express server as its proxy
+  ///////////////////////////////////////////////////////////////////////////
+  function browserSync () {
+    /*
+    * since the files are proxying through the proxy the script for bs
+    * doesn't get injected into proxied HTML. Need to intercept
+    * the HTML and store it in a TEMP file in the same dir, then serve???
+    * How can I get the script tag injected?
+    */
+    bs.init({
+      files: [
+        "dist/resources/**/**/*.{js,css}",
+        "localized/resources/**/**/*.{js,css}"
+      ],
+      proxy: "http://localhost:" + opts.port,
+      port: opts.port + 1,
+      open: "external" // opens network-shareable URL automatically
+    }, function ( err, bs ) {
+      if ( err ) {
+        cli.warn( "Error starting BrowserSync server. Check application." );
+      } else {
+        cli.ok( "Storefront Development Workflow via BrowserSync ready at ".green +
+                      "http://localhost:" + ( opts.port + 1 ) );
+      }
+    });
+  };
+
+  // start up our main Express server and then kick in the BrowserSync server
+  server = app.listen( opts.port, function () {
     var host = ( server.address().address === "::" ) ? "localhost" : server.address().address,
         port = server.address().port;
 
     cli.ok( "PatternGuide running at http://" + host + ":" + port + "\n" );
+
+    // kick off the BrowserSync server
+    browserSync();
   });
 
 });

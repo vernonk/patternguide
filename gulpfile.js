@@ -24,7 +24,7 @@ var fs = require( "fs" ),
     config = require( "./config/patternguide" ),
     done = false;
 
-glob( path.join( __dirname, "tasks", "**/*.js" ),
+glob( path.join( __dirname, "gulp", "**/*.js" ),
       function ( err, files ) {
         var shortname;
         if ( err ) throw err;

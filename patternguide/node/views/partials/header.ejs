@@ -10,6 +10,8 @@
       <!-- place the favicon.ico in the root directory -->
       <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+      <link rel="stylesheet" href="/appsets/modules/stickybar/styles/main.css">
+
       <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
       <script>window.pg = {};</script>
 </head>
@@ -17,12 +19,10 @@
   <!--[if lt IE 8]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
+  <script>console.log( <%- JSON.stringify( helpers.nav.global )  %>);</script>
 
-    <header role="banner" class="row large-12 cols">
-      <nav role="navigation" class="row">
-        <!-- iterate over the global menu -->
-        <ul>
-          <li>Global menu</li>
-        </ul>
-      </nav>
-    </header>
+  <header role="banner" class="">
+    <!-- This menu needs to be a dynamic menu that builds dropdowns of all
+    groups and pieces for each section. That's not what it is right now. -->
+    
+  </header>
