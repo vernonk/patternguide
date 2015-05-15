@@ -42,13 +42,17 @@
     "colors": "^1.0.3",
     "consolidate": "^0.11.0",
     "deasync": "0.0.10",
+    "del": "^1.1.1",
     "ejs": "^2.3.1",
     "es6-promise": "^2.0.1",
     "express": "^4.12.3",
+    "fs-extra": "^0.18.3",
     "glob": "^5.0.3",
+    "inquirer": "^0.8.2",
     "lodash": "^3.6.0",
     "request": "^2.54.0",
-    "sync": "^0.2.5"
+    "sync": "^0.2.5",
+    "yargs": "^3.8.0"
   },
   "license": "???--Not sure need to be sure pieces I need play right.",
   "devDependencies": {
