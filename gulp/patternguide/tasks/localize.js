@@ -25,8 +25,7 @@ module.exports = gulp.task( "localize", function ( cb ) {
       "User-Agent": ( argv.useragent ) ? argv.useragent : fakeUa
     }
   }, function ( err, res, content ) {
-    var domain = "vernon",
-        localPath = path.join( __dirname, "..", "..", "..", "localized", asset );
+    var localPath = path.join( __dirname, "..", "..", "..", "localized", asset );
 
     if ( err ) {
       console.log( "Error in localize asset request:".red + err );
