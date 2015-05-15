@@ -21,6 +21,9 @@ patternguide
 patternguide
   .use( express.static( path.join( __dirname, "..", "..", "localized" ) ) ) // use localized files first, then source
   .use( express.static( path.join( __dirname, "..", "..", "dist" ) ) )
+  .use( express.static( path.join( __dirname, "..", "..", "src" ) ) )
+  .use( express.static( path.join( __dirname, "..", "..", "sandbox" ) ) )
+  .use( "appsets", express.static( path.join( __dirname ), "..", "styles" ) )
   .use( path.join( routePrefix, "api" ), require( path.join( __dirname, "routes/api-core" ) ) )
   .use( routePrefix, require( path.join( __dirname, "routes/home" ) ) )
   .use( path.join( routePrefix, "elements" ), require( path.join( __dirname, "routes/elements" ) ) )
