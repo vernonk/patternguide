@@ -13,8 +13,20 @@ PatternGuide is a workflow tool and style guide generator. The tool is geared to
 
 ## Pre-Use Dependencies
 
-* Latest io.js or Node.js run in `--harmony` mode
-* `npm install -g grunt-cli` (hopefully not, but depending on your setup, you may need to run with `sudo`)
+* Latest io.js or Node.js
+* `npm install` (depending on your location/proxy/"situation" you may need sudo)
+
+## Workflow Tasks
+
+### `gulp localize`
+
+The purpose behind `gulp localize` is to allow you the ability to pull down any asset from the web to work on locally. This enables you to fetch data requests for offline development, full HTML pages for rapid prototyping and debugging, etc.
+
+**How do you run it?**
+
+`gulp localize --asset=github.com/index.html`
+
+You should see a successful output on the command line and then you will find the asset available via the `localized` directory in your repo. You'll notice that there is a folder created for the domain you localized from. This will help you work quickly on any number of sites, and since this isn't committed, do whatever you want!
 
 ## API Definition
 
