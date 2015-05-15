@@ -14,11 +14,11 @@ module.exports = gulp.task( "watchers", [], function () {
 
   watchers.js = {};
   watchers.js.pattern = "src/**/*.js";
-  watchers.js.tasks = [ "localize" ];
+  watchers.js.tasks = [ "" ];
 
   watchers.scss = {};
   watchers.scss.pattern = "src/**/*.scss";
-  watchers.scss.tasks = [ "localize" ];
+  watchers.scss.tasks = [ "" ];
 
   for ( var key in watchers ) {
     if ( watchers.hasOwnProperty( key ) ) {
