@@ -36,7 +36,7 @@ module.exports = gulp.task( "clean", [], function ( cb ) {
   promptSchema.push({
     type: "checkbox",
     name: "dirtyrooms",
-    message: "Deselect any paths you *do not* want to clean.",
+    message: "Select any paths you *want* to clean.",
     choices: function () {
       rooms.forEach(function ( val, i ) {
         if ( dirtyrooms.indexOf( val.name ) !== -1 ) {
