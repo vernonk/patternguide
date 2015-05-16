@@ -16,7 +16,18 @@ PatternGuide is a workflow tool and style guide generator. The tool is geared to
 * Latest io.js or Node.js
 * `npm install` (depending on your location/proxy/"situation" you may need sudo)
 
-## Workflow Tasks
+## Reverse Proxy Debugging & Prototyping
+
+Proxy debugging and development is an extremely powerful piece in your arsenal when you being using it correctly. By reverse proxying assets,
+you can decide which files need to be part of your local set and which files can be served from a live server.
+
+When building design systems (which is PatternGuide's purpose) the touching over of **every, single page** is a thing of the past, as we use 
+reusable components and modules. This is where the power of a reverse proxy can began to be seen.
+
+You no longer need all of the HTML on your local machine. You can debug production defects using your local JavaScript and Sass/CSS, while all the while
+seeing the results as if you were coding against production itself.
+
+## Individual Workflow Tasks
 
 ### `gulp localize`
 

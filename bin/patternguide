@@ -15,7 +15,7 @@ cli.parse({
   dumb: [ "d", "Disable file watch mode (js, scss)" ], // dumb in the sense it doesn't know what's going on
   minify: [ "m", "Perform an initial gulp minify" ],
   port: [ "p", "Start server on this port", "number", 3000 ],
-  proxyhost: [ "ph", "Host to use as reverse proxy, overrides PatternGuide config" ],
+  proxyHost: [ "ph", "Host to use as reverse proxy, overrides PatternGuide config", "string" ],
   verbose: [ "v", "Verbose mode (expanded logging)"]
 });
 
@@ -25,8 +25,8 @@ cli.main(function ( args, opts ) {
   if ( opts.verbose ) patternguide.set( "config" ).verbose = false;
   if ( opts.proxyHost ) patternguide.set( "config" ).proxyHost = opts.proxyHost;
 
-  patternguide.set( "config").cliargs = args;
-  patternguide.set( "config").cliopts = opts;
+  patternguide.set( "config" ).cliargs = args;
+  patternguide.set( "config" ).cliopts = opts;
 
   // take an array of paths from root to create
   function makedirs( arr ) {

@@ -19,7 +19,7 @@ patternguide
   .set( "views", path.join( __dirname, "views" ) );
 
 // determine the appropriate localized dirname
-cliopts = patternguide.get( "config").cliopts;
+cliopts = patternguide.get( "config" ).cliopts;
 if ( cliopts && cliopts.proxyhost ) {
 	localizeddirname = cliopts.proxyhost;
 }
