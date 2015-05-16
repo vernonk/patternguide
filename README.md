@@ -16,6 +16,69 @@ PatternGuide is a workflow tool and style guide generator. The tool is geared to
 * Latest io.js or Node.js
 * `npm install` (depending on your location/proxy/"situation" you may need sudo)
 
+## Pattern Library Deconstruction
+
+PatternGuide gives you the ability to generate a living style guide and reusable component library. These components can
+be used to create reusable layouts, and those layouts used to create fully built HTML pages.
+
+### But how?
+
+Understanding how everything comes together can take some time, but understanding **how to use the tool** should be mostly
+painless and hopefully will introduce new gains in efficiency which result in more time for you to focus on moving the web,
+your team, yourself, and your organization forward. Let's take some time to look at the individual parts and responsibilities.
+
+### The Building Blocks
+
+1. Elements
+1. Modules
+1. Patterns
+1. Layouts
+1. Pages
+
+You may be asking, _"What about the content?"_ Don't worry. It's in there, just spread between all of the various pieces. 
+As the final pages come together, the various bits of structured and strategically sound content will be ready, not only 
+for the page it is on but for sharing across other pages as well.
+
+#### Elements
+
+Elements are the core, fundamental part that everything originates from. When we speak of elements, we're talking about 
+colors, fonts, form standards, etc. These elemental rules and definitions will be used to construct our modules.
+
+* Source Location: `src/elements`
+
+#### Modules
+
+Modules are the "thing" - or "widget" that elements combine to create. A simple example of a module may be a search form.
+In a search form, you'll have the text input, your form button, perhaps an icon. Multiple elements that come together to create
+our module. 
+
+* Source Location: `src/modules`
+
+#### Patterns
+
+Patterns are defined when we take a collection of modules to form something. Using the search module from our example above,
+let's say with our search module, we also have a navigation module, and a social module. We can take that shared, similar grouping
+of modules and bring them together to create a pattern. Both modules and patterns can be used in our reusable layouts.
+
+* Source Location: `src/patterns`
+
+#### Layouts
+
+Layouts are reusuable collections of patterns and modules that form an overall page layout. These reusable page layouts 
+will determine what types of editable content sections will be available for content strategists, your clients, or you to
+use to manage the bits of content on the fully built HTML pages.
+
+* Source Location: `src/layouts`
+
+#### Pages
+
+Pages are the culmination of all the pieces beforehand. Pages are the rendered HTML of the collection of 
+various elements, modules, patterns, layouts and content structures.
+
+* Source Location: `src/pages`
+
+---
+
 ## Reverse Proxy Debugging & Prototyping
 
 Proxy debugging and development is an extremely powerful piece in your arsenal when you being using it correctly. By reverse proxying assets,
