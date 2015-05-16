@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 var fs = require( "fs" ),
     path = require( "path" ),
     bs = require( "browser-sync" ).create(),
@@ -24,6 +24,9 @@ cli.main(function ( args, opts ) {
 
   if ( opts.verbose ) patternguide.set( "config" ).verbose = false;
   if ( opts.proxyHost ) patternguide.set( "config" ).proxyHost = opts.proxyHost;
+
+  patternguide.set( "config").cliargs = args;
+  patternguide.set( "config").cliopts = opts;
 
   // take an array of paths from root to create
   function makedirs( arr ) {
@@ -60,7 +63,7 @@ cli.main(function ( args, opts ) {
   }
 
   // make sure dist, localized and sandbox dirs exist
-  makedirs( [ "localized", "dist", "sandbox" ] );
+  makedirs( [ "../localized", "../dist", "../sandbox" ] );
 
   if ( !opts.dumb ) {
     children.watchers = spawn( "gulp", [ "watchers" ] );
