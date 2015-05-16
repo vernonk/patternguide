@@ -14,7 +14,6 @@ router.get( "*", function ( req, res ) {
   var request = require( "request" ),
       colors = require( "colors" ),
       proxyHost = pgConfig.proxyHost || "localhost",
-      proxyPort = ( pgConfig.proxySecure ) ? 443 : 80,
       proxyProtocol = ( pgConfig.proxySecure ) ? "http://" : "http://",
       http = ( pgConfig.proxySecure ) ? require( "https" ) : require( "http" );
 
@@ -28,8 +27,8 @@ router.get( "*", function ( req, res ) {
   // then we pipe the request through in the response
   req.pipe( request[ req.method.toLowerCase() ]({
     url: proxyProtocol + proxyHost + req.originalUrl,
-    timeout: 5000,
-  }, function ( err, resp, body ) {
+    timeout: 5000
+  }, function ( err ) {
     if ( err ) {
       res.end( "<h1>Error " + err.code + ": Suck it." );
     }

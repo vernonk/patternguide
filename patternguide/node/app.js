@@ -3,7 +3,8 @@ var express = require( "express" ),
     path = require( "path" ),
     cons = require( "consolidate" ),
     pgConfig = require( path.join( __dirname, "..", "..", "config/patternguide" ) ),
-    routePrefix = ( /\/$/.test( pgConfig.routePrefix ) ) ? pgConfig.routePrefix : pgConfig.routePrefix + "/";
+    routePrefix = ( /\/$/.test( pgConfig.routePrefix ) ) ? pgConfig.routePrefix : pgConfig.routePrefix + "/",
+		cliopts, localizeddirname = pgConfig.proxyHost;
 
 // global patternguide var available throughout
 patternguide = express();
@@ -17,9 +18,15 @@ patternguide
   .set( "view engine", pgConfig.templatingFileExt )
   .set( "views", path.join( __dirname, "views" ) );
 
+// determine the appropriate localized dirname
+cliopts = patternguide.get( "config").cliopts;
+if ( cliopts && cliopts.proxyhost ) {
+	localizeddirname = cliopts.proxyhost;
+}
+
 // piece out how our proxied, style guide and API paths will be matched
 patternguide
-  .use( express.static( path.join( __dirname, "..", "..", "localized" ) ) ) // use localized files first, then source
+  .use( express.static( path.join( __dirname, "..", "..", "localized", localizeddirname ) ) ) // use localized files first, then source
   .use( express.static( path.join( __dirname, "..", "..", "dist" ) ) )
   .use( express.static( path.join( __dirname, "..", "..", "src" ) ) )
   .use( express.static( path.join( __dirname, "..", "..", "sandbox" ) ) )
