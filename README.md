@@ -1,7 +1,5 @@
 # PatternGuide
 
-\*\*\* **Development in Progress** \*\*\*
-
 Responsive Design has completely revolutionized the way that design and development
 teams should approach collaboration. The waterfall methodologies of the past simply
 can't sustain the needs of modern design and development organizations.
@@ -10,16 +8,27 @@ can't sustain the needs of modern design and development organizations.
 
 PatternGuide is a workflow tool and style guide generator. The tool is geared to enhance the collaboration efforts between designers and developers, provide a streamlined local development experience, and create a well-structured and maintainable pattern library.
 
-
 ## Pre-Use Dependencies
 
 * Latest io.js or Node.js
 * `npm install` (depending on your location/proxy/"situation" you may need sudo)
 
+## Development In-Progress
+
+PatternGuide is in active development. I'm hoping to have v1 complete by June 15, 2015. The following features are complete and
+active:
+
+* Gulp `localize` task
+* Reverse Proxy workflow
+* Documentation points
+* API roughly developed. This will serve to dynamically assemble a living style guide.
+
 ## Pattern Library Deconstruction
 
 PatternGuide gives you the ability to generate a living style guide and reusable component library. These components can
-be used to create reusable layouts, and those layouts used to create fully built HTML pages.
+be used to create reusable layouts, and those layouts used to create fully built HTML pages. This work has been heavily
+influenced by the tremendous work done by [Brad Frost](http://bradfrost.com/) on [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/)
+and [PatternLab.io](http://patternlab.io/).
 
 ### But how?
 
@@ -81,14 +90,67 @@ various elements, modules, patterns, layouts and content structures.
 
 ## Reverse Proxy Debugging & Prototyping
 
-Proxy debugging and development is an extremely powerful piece in your arsenal when you being using it correctly. By reverse proxying assets,
+Proxy debugging and development is an extremely powerful piece in your arsenal. By reverse proxying assets,
 you can decide which files need to be part of your local set and which files can be served from a live server.
 
 When building design systems (which is PatternGuide's purpose) the touching over of **every, single page** is a thing of the past, as we use 
-reusable components and modules. This is where the power of a reverse proxy can began to be seen.
+reusable components and modules. This is where the power of a reverse proxy can start to be seen in the life of a Front-End Developer & Designer.
 
-You no longer need all of the HTML on your local machine. You can debug production defects using your local JavaScript and Sass/CSS, while all the while
+You no longer need all of the HTML on your local machine. You can denbug production defects using your local JavaScript and Sass/CSS, while all the while
 seeing the results as if you were coding against production itself.
+
+### Kicking off the reverse proxy server
+
+Getting the reverse proxy up and running is a really easy task. Fire up your terminal and `cd` to the root of your
+`patternguide` repo. From there, the syntax for kicking off the server looks like this:
+
+```
+./bin/patternguide --ph=domain.com
+```
+
+The `ph` option flag defines which host to use as the reverse proxy. This will fire up the Express server as well as
+the BrowserSync server and open a tab in your default browser.
+
+From that point, it's watching your `src` directory for changes to `.scss` or `.js` files out of the box.
+
+### Configuring watched files
+
+It's very easy to configure what files are being watched by modifying the Gulp task located at
+`./gulp/patternguide/tasks/watchers.js`. The definition should be fairly clear if you've used Gulp before.
+
+### Directory Order of Priority
+
+PatternGuide will serve assets based on a defined directory stack. If an asset is found at the requested path, it is returned
+and served. If not, the next directory in the stack is checked, and so on and so forth. If the asset is not found, you get a 404.
+
+The order of priority for PatternGuide serves from the following directories:
+
+1. `./localized`
+1. `./dist`
+1. `./src`
+1. `./sandbox`
+
+**As v1 of PatternGuide is completed over the next few weeks the other routes accessible will be related to the living style guide.
+Each route will be namespaced to `patternguide` to avoid URL conflicts in reverse proxying.**
+
+### Pathing files and such
+
+The directory order described above will all be served from the application as if that directory were root. So if you're working
+on a local prototype in your `sandbox` directory and its directory name is `myprototype`, then you would access the URL
+via the local server at http://localhost:3001/myprototype.
+
+### How serving `localized` files works
+
+The documentation for the `localized` task is below in the **Individual Workflow Tasks** section, but in-short the task allows you to fetch most any resource from the web
+and pull down to your local environment. At that point, a directory is created with the domain the resource was fetched from
+in your `localized` directory as well as the resource at the path it would normally live at. The reverse proxy will serve
+assets from your localized directory based on a matching domain passed with the `--ph` option flag.
+
+### Collaborating In-Network
+
+The BrowserSync server will fire off a tab in your default browser and you will notice that it has an IP. If you're on a
+local network, you can share that out and other folks can view your screen. You can also give them control, follow history, etc.
+Those features can all be seen [over on the BrowserSync site](http://www.browsersync.io/).
 
 ## Individual Workflow Tasks
 
