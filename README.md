@@ -8,6 +8,14 @@ can't sustain the needs of modern design and development organizations.
 
 PatternGuide is a workflow tool and style guide generator. The tool is geared to enhance the collaboration efforts between designers and developers, provide a streamlined local development experience, and create a well-structured and maintainable pattern library.
 
+## Sections
+
+* [Pre-use Dependencies](#pre-use-dependencies)
+* [Development In-Progress](#development-in-progress)
+* [Pattern Library Deconstruction](#pattern-library-deconstruction)
+* [Reverse Proxy Debugging & Prototyping](#reverse-proxy-debugging--prototyping)
+* [Individual Workflow Tasks](#individual-workflow-tasks)
+
 ## Pre-Use Dependencies
 
 * Latest io.js or Node.js
