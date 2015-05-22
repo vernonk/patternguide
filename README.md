@@ -57,7 +57,7 @@ colors, fonts, form standards, etc. These elemental rules and definitions will b
 
 #### Modules
 
-Modules are the "thing" - or "widget" that elements combine to create. A simple example of a module may be a search form.
+Modules are the "thing" - or "widget" - that elements combine to create. A simple example of a module may be a search form.
 In a search form, you'll have the text input, your form button, perhaps an icon. Multiple elements that come together to create
 our module. 
 

@@ -5,8 +5,9 @@
 **/
 var gulp = require( "gulp" ),
     del = require( "del" ),
-    colors = require( "colors" ),
     inquirer = require( "inquirer" );
+
+require( "colors" ); // no need to store in variable, since we just reference color props
 
 module.exports = gulp.task( "clean", [], function ( cb ) {
   var argv = require( "yargs" ).argv,

@@ -3,11 +3,12 @@ var fs = require( "fs" ),
     path = require( "path" ),
     bs = require( "browser-sync" ).create(),
     cli = require( "cli" ).enable( "status" ),
-    colors = require( "colors" ),
     gulp = require( "gulp" ),
     spawn = require( "child_process" ).spawn,
     app = require( path.join( __dirname, "..", "patternguide/node/app" ) ),
     server, children = {};
+
+require( "colors" ); // no need to store in variable, since we just reference color props
 
 // patternguide cli options
 cli.parse({
@@ -86,7 +87,7 @@ cli.main(function ( args, opts ) {
       modifiedFileType = ( modifiedFile ) ? modifiedFile[ 0 ].substr( modifiedFile[ 0 ].lastIndexOf( "." ) ) : "";
 
       if ( modifiedFile && modifiedFile[ 0 ] !== "gulpfile.js" ) {
-        console.log( "BrowserSync should br reloading all " + modifiedFileType + " files." );
+        console.log( "BrowserSync should be reloading all " + modifiedFileType + " files." );
         bs.reload( "**/*." + modifiedFileType );
       }
 
@@ -121,7 +122,7 @@ cli.main(function ( args, opts ) {
       if ( err ) {
         cli.warn( "Error starting BrowserSync server. Check application." );
       } else {
-        cli.ok( "Storefront Development Workflow via BrowserSync ready at ".green +
+        cli.ok( "Front-End Development Workflow via BrowserSync ready at ".green +
                       "http://localhost:" + ( opts.port + 1 ) );
       }
     });

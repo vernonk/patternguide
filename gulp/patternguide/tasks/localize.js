@@ -2,9 +2,10 @@
 var gulp = require( "gulp" ),
     fs = require( "fs-extra" ),
     path = require( "path" ),
-    colors = require( "colors" ),
     request = require( "request" ),
     fakeUa = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36";
+
+require( "colors" ); // no need to store in variable, since we just reference color props
 
 module.exports = gulp.task( "localize", function ( cb ) {
   var argv = require( "yargs" ).argv,
