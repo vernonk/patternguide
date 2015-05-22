@@ -149,7 +149,7 @@ via the local server at http://localhost:3001/myprototype.
 
 ### How serving `localized` files works
 
-The documentation for the `localized` task is below in the **Individual Workflow Tasks** section, but in-short the task allows you to fetch most any resource from the web
+The documentation for the `localized` task is below in the **Individual Workflow Tasks** section, but in-short the task allows you to fetch most HTML, CSS, JavaScript, JSON, XML resources from the web
 and pull down to your local environment. At that point, a directory is created with the domain the resource was fetched from
 in your `localized` directory as well as the resource at the path it would normally live at. The reverse proxy will serve
 assets from your localized directory based on a matching domain passed with the `--ph` option flag.
@@ -164,7 +164,7 @@ Those features can all be seen [over on the BrowserSync site](http://www.browser
 
 ### `gulp localize`
 
-The purpose behind `gulp localize` is to allow you the ability to pull down any asset from the web to work on locally. This enables you to fetch data requests for offline development, full HTML pages for rapid prototyping and debugging, etc.
+The purpose behind `gulp localize` is to allow you the ability to pull down most HTML, CSS, JavaScript, JSON, XML resources from the web to work on locally. This enables you to fetch data requests for offline development, full HTML pages for rapid prototyping and debugging, etc. Work will continue to support a wide array of rendered HTML sources rather than just raw extensions.
 
 **How do you run it?**
 
