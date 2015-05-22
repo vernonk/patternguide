@@ -172,6 +172,11 @@ The purpose behind `gulp localize` is to allow you the ability to pull down any 
 
 You should see a successful output on the command line and then you will find the asset available via the `localized` directory in your repo. You'll notice that there is a folder created for the domain you localized from. This will help you work quickly on any number of sites, and since this isn't committed, do whatever you want!
 
+### `gulp clean`
+
+You can use `gulp clean` to completely empty one or all of the following: `./dist`, `./localized`, and `./sandbox`. When you run
+the command you will be given a prompt in the command line where you can select which paths you want to clean.
+
 ## API Definition
 
 PatternGuide is being developed with the idea that the tool could be set up and
@@ -184,11 +189,3 @@ The overall goal is to keep the API as simple as possible to make working with i
 * /pattern/name
 * /layout/name
 
-
-## Configuring PatternGuide
-
-### Browserify Modules
-
-**Shimming non-Browserify modules (e.g. jQuery):**
-
-Use the `./config/browserify-shim.js` configuration file to provide any libraries that need to be shimmed and these will be included as dependencies require them.
