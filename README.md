@@ -36,7 +36,7 @@ active:
 PatternGuide gives you the ability to generate a living style guide and reusable component library. These components can
 be used to create reusable layouts, and those layouts used to create fully built HTML pages. This work has been heavily
 influenced by the tremendous work done by [Brad Frost](http://bradfrost.com/) on [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/)
-and [PatternLab.io](http://patternlab.io/).
+and [PatternLab.io](http://patternlab.io/) along with [Dave Molsen](http://www.dmolsen.com/).
 
 ### But how?
 
