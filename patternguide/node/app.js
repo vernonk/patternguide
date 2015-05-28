@@ -2,7 +2,8 @@
 var express = require( "express" ),
     path = require( "path" ),
     cons = require( "consolidate" ),
-    pgConfig = require( path.join( __dirname, "..", "..", "config/patternguide" ) ),
+		pathToRoot = path.join( __dirname, "..", ".." ),
+    pgConfig = require( path.join( pathToRoot, "config/patternguide" ) ),
     routePrefix = ( /\/$/.test( pgConfig.routePrefix ) ) ? pgConfig.routePrefix : pgConfig.routePrefix + "/",
 		cliopts, localizeddirname = pgConfig.proxyHost;
 
@@ -26,11 +27,11 @@ if ( cliopts && cliopts.proxyhost ) {
 
 // piece out how our proxied, style guide and API paths will be matched
 patternguide
-  .use( express.static( path.join( __dirname, "..", "..", "localized", localizeddirname ) ) ) // use localized files first, then source
-  .use( express.static( path.join( __dirname, "..", "..", "dist" ) ) )
-  .use( express.static( path.join( __dirname, "..", "..", "src" ) ) )
-  .use( express.static( path.join( __dirname, "..", "..", "sandbox" ) ) )
-  .use( "appsets", express.static( path.join( __dirname ), "..", "styles" ) )
+  .use( express.static( path.join( pathToRoot, "localized", localizeddirname ) ) ) // use localized files first, then source
+  .use( express.static( path.join( pathToRoot, "dist" ) ) )
+  .use( express.static( path.join( pathToRoot, "src" ) ) )
+  .use( express.static( path.join( pathToRoot, "sandbox" ) ) )
+  .use( path.join( routePrefix, "appsets" ), express.static( path.join( __dirname, ".." ) ) )
   .use( path.join( routePrefix, "api" ), require( path.join( __dirname, "routes/api-core" ) ) )
   .use( routePrefix, require( path.join( __dirname, "routes/home" ) ) )
   .use( path.join( routePrefix, "elements" ), require( path.join( __dirname, "routes/elements" ) ) )
