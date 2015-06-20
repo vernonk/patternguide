@@ -23,13 +23,7 @@ PatternGuide is a workflow tool and style guide generator. The tool is geared to
 
 ## Development In-Progress
 
-PatternGuide is in active development. I'm hoping to have v1 complete by June 15, 2015. The following features are complete and
-active:
-
-* Gulp `localize` task
-* Reverse Proxy workflow
-* Documentation points
-* API roughly developed. This will serve to dynamically assemble a living style guide.
+PatternGuide is in active development. I'm hoping to have v1 complete by <strike>June 15, 2015</strike> (obviously missed that one - thanks paycheck :-) - hoping to wrap v1 asap).
 
 ## Pattern Library Deconstruction
 
@@ -52,13 +46,13 @@ your team, yourself, and your organization forward. Let's take some time to look
 1. Layouts
 1. Pages
 
-You may be asking, _"What about the content?"_ Don't worry. It's in there, just spread between all of the various pieces. 
-As the final pages come together, the various bits of structured and strategically sound content will be ready, not only 
+You may be asking, _"What about the content?"_ Don't worry. It's in there, just spread between all of the various pieces.
+As the final pages come together, the various bits of structured and strategically sound content will be ready, not only
 for the page it is on but for sharing across other pages as well.
 
 #### Elements
 
-Elements are the core, fundamental part that everything originates from. When we speak of elements, we're talking about 
+Elements are the core, fundamental part that everything originates from. When we speak of elements, we're talking about
 colors, fonts, form standards, etc. These elemental rules and definitions will be used to construct our modules.
 
 * Source Location: `src/elements`
@@ -67,7 +61,7 @@ colors, fonts, form standards, etc. These elemental rules and definitions will b
 
 Modules are the "thing" - or "widget" - that elements combine to create. A simple example of a module may be a search form.
 In a search form, you'll have the text input, your form button, perhaps an icon. Multiple elements that come together to create
-our module. 
+our module.
 
 * Source Location: `src/modules`
 
@@ -81,7 +75,7 @@ of modules and bring them together to create a pattern. Both modules and pattern
 
 #### Layouts
 
-Layouts are reusuable collections of patterns and modules that form an overall page layout. These reusable page layouts 
+Layouts are reusuable collections of patterns and modules that form an overall page layout. These reusable page layouts
 will determine what types of editable content sections will be available for content strategists, your clients, or you to
 use to manage the bits of content on the fully built HTML pages.
 
@@ -89,10 +83,42 @@ use to manage the bits of content on the fully built HTML pages.
 
 #### Pages
 
-Pages are the culmination of all the pieces beforehand. Pages are the rendered HTML of the collection of 
+Pages are the culmination of all the pieces beforehand. Pages are the rendered HTML of the collection of
 various elements, modules, patterns, layouts and content structures.
 
 * Source Location: `src/pages`
+
+
+### Other articles
+
+Here are a couple articles on design systems:
+
+* [What a design system looks like](https://medium.com/@vernonk/what-a-design-system-looks-like-88fdc7e66e7a)
+* [Design Systems are Coming to the Enterprise. Are Your UX Teams Ready?](https://medium.com/@vernonk/design-systems-are-coming-to-the-enterprise-are-your-ux-teams-ready-1d7343e212c3)
+
+## Starting the Style Guide
+
+To start the style guide tool (will also kick off the proxy debugger if a flag is passed - info below), run the following command from the root of your repository on the command line:
+
+```text
+./bin/patternguide
+```
+
+This will kick off the server and open your default browser to the style guide homepage.
+
+## Working with Style Guide views
+
+You can modify the node generated views of the style guide by modifying the ejs files located at `./patternguide/node/views`.
+
+## Styling the Style Guide
+
+You can apply your own styling to the style guide by modifying the Sass files located in `./patternguide/styles`. In that directory, there are various files around layouts, modules, etc.
+
+## Working with the Style Guide client-side application layer
+
+The JavaScript application for the client-side is stored in `./patternguide/app`. This is where all the necessary application pieces for models, views, etc will be stored for the style guide.
+
+
 
 ---
 
@@ -101,7 +127,7 @@ various elements, modules, patterns, layouts and content structures.
 Proxy debugging and development is an extremely powerful piece in your arsenal. By reverse proxying assets,
 you can decide which files need to be part of your local set and which files can be served from a live server.
 
-When building design systems (which is PatternGuide's purpose) the touching over of **every, single page** is a thing of the past, as we use 
+When building design systems (which is PatternGuide's purpose) the touching over of **every, single page** is a thing of the past, as we use
 reusable components and modules. This is where the power of a reverse proxy can start to be seen in the life of a Front-End Developer & Designer.
 
 You no longer need all of the HTML on your local machine. You can denbug production defects using your local JavaScript and Sass/CSS, while all the while
@@ -188,4 +214,3 @@ The overall goal is to keep the API as simple as possible to make working with i
 * /module/name
 * /pattern/name
 * /layout/name
-
