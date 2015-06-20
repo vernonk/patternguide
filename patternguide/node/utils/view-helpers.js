@@ -14,7 +14,7 @@ viewHelpers.nav.global = (function () {
   var pattern = path.join( __dirname, "..", "..", "..",
                           "src/?(elements|layouts|modules|patterns)/**/" ),
       allItems = glob.sync( pattern, {
-        ignore: "**/?(styles|js|tests)" // not ignoring this stuff.
+        ignore: "**/?(styles|js|tests|docs|scripts|view)"
       }),
       globalNavList = {};
 
@@ -42,17 +42,20 @@ viewHelpers.nav.global = (function () {
 
 
 // provide a view helper that will allow many supported templating libraries
-// use a "render" helper in a single or series of nested partials.
+// use a "render" helper in a single or series of nested view.
 viewHelpers.render = function ( name, opts ) {
 
   var done = false,
-      theHtml;
+      theHtml,
+			viewPath = ( /^#PGSG-/.test( name ) ) ? name.substr( 6 ) : patternguide.get( "views" ) + "/" + name;
 
   opts = opts || {};
   opts.helpers = viewHelpers;
 
+	//TODO: If this is a core styleguide view, ALWAYS use base style guide templating language, otherwise use set engine
+
   patternguide.engines[ ".html" ].apply( patternguide, [
-    patternguide.get( "views" ) + "/" + name,
+    viewPath,
     opts,
     function ( err, html ) {
       theHtml = html;
