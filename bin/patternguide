@@ -98,6 +98,7 @@ cli.main(function ( args, opts ) {
     children.watchers.on( "close", function ( data ) {
       console.log( "CLOSE!", data );
     });
+
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -112,9 +113,12 @@ cli.main(function ( args, opts ) {
     */
     bs.init({
       files: [
-        "dist/resources/**/**/*.{js,css}",
-        "localized/resources/**/**/*.{js,css}"
+        "dist/**/**/*.{html,js,css}",
+        "localized/**/**/*.{html,js,css}",
+        "sandbox/**/**/*.{html,js,css}",
+        "patternguide/**/**/*.{html,js,scss,css,svg,png}"
       ],
+      browser: [],
       proxy: "http://localhost:" + opts.port,
       port: opts.port + 1,
       open: "external" // opens network-shareable URL automatically
@@ -137,6 +141,23 @@ cli.main(function ( args, opts ) {
 
     // kick off the BrowserSync server
     browserSync();
+  });
+
+  // add some proper process watching for the overall application
+  process.on( "SIGINT", function () {
+    console.log( "SIGINT!" );
+    children.watchers.kill();
+    process.exit();
+  });
+  process.on( "SIGQUIT", function () {
+    console.log( "SIGQUIT!" );
+    children.watchers.kill();
+    process.exit();
+  });
+  process.on( "SIGTERM", function () {
+    console.log( "SIGTERM!" );
+    children.watchers.kill();
+    process.exit();
   });
 
 });
