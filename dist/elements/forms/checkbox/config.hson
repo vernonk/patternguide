@@ -1,0 +1,10 @@
+{
+  "name": "checkbox",
+  "version": "0.0.1",
+  "description": "Form element: Checkbox",
+  "defaults": {
+    "label": "Default label",
+    "checked": false,
+    "value": "default value"
+  }
+}
