@@ -1,0 +1,116 @@
+<%
+var sections = {
+      elements: helpers.api.getSection( "elements" ),
+      modules: helpers.api.getSection( "modules" ),
+      patterns: helpers.api.getSection( "patterns" ),
+      templates: helpers.api.getSection( "layouts" )
+    },
+    hasDropdown = false;
+%>
+<div class="sticky">
+  <nav role="navigation" class="top-bar" data-topbar data-options="is_hover: false">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#">PatternGuide</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+      <ul class="left">
+        <!-- These all need abstracted more, but good for first go -->
+        <!-- Elements Dropdown  -->
+        <li class="has-dropdown">
+          <a href="/elements/">Elements</a>
+          <ul class="dropdown">
+            <% sections.elements.forEach(function( val, index ) { %>
+              <% hasDropdown = val.items && val.items.length; %>
+              <li <% if ( hasDropdown ) { %> class="has-dropdown" <% } %>>
+                <a href="/elements/<%= encodeURIComponent( val.name ) %>"><%- val.name %></a>
+                <% if ( hasDropdown ) { %>
+                  <ul class="dropdown">
+                    <li><label><%- val.name %></label></li>
+                    <!-- yes, I see the bad variable name -->
+                    <% val.items.forEach(function ( childVal, childIndex ) { %>
+                      <li>
+                        <a href="/elements/<%- encodeURIComponent( val.name ) %>/<%- encodeURIComponent( childVal ) %>/"><%- childVal %></a>
+                      </li>
+                    <% }); %>
+                  </ul>
+                <% } %>
+              </li>
+            <% }); %>
+          </ul>
+        </li>
+        <!-- Modules Dropdown  -->
+        <li class="has-dropdown">
+          <a href="/elements/">Modules</a>
+          <ul class="dropdown">
+            <% sections.modules.forEach(function( val, index ) { %>
+              <% hasDropdown = val.items && val.items.length; %>
+              <li <% if ( hasDropdown ) { %> class="has-dropdown" <% } %>>
+                <a href="/elements/<%= encodeURIComponent( val.name ) %>"><%- val.name %></a>
+                <% if ( hasDropdown ) { %>
+                  <ul class="dropdown">
+                    <li><label><%- val.name %></label></li>
+                    <!-- yes, I see the bad variable name -->
+                    <% val.items.forEach(function ( childVal, childIndex ) { %>
+                      <li>
+                        <a href="/elements/<%- encodeURIComponent( val.name ) %>/<%- encodeURIComponent( childVal ) %>/"><%- childVal %></a>
+                      </li>
+                    <% }); %>
+                  </ul>
+                <% } %>
+              </li>
+            <% }); %>
+          </ul>
+        </li>
+        <!-- Patterns Dropdown  -->
+        <li class="has-dropdown">
+          <a href="/elements/">Patterns</a>
+          <ul class="dropdown">
+            <% sections.patterns.forEach(function( val, index ) { %>
+              <% hasDropdown = val.items && val.items.length; %>
+              <li <% if ( hasDropdown ) { %> class="has-dropdown" <% } %>>
+                <a href="/elements/<%= encodeURIComponent( val.name ) %>"><%- val.name %></a>
+                <% if ( hasDropdown ) { %>
+                  <ul class="dropdown">
+                    <li><label><%- val.name %></label></li>
+                    <!-- yes, I see the bad variable name -->
+                    <% val.items.forEach(function ( childVal, childIndex ) { %>
+                      <li>
+                        <a href="/elements/<%- encodeURIComponent( val.name ) %>/<%- encodeURIComponent( childVal ) %>/"><%- childVal %></a>
+                      </li>
+                    <% }); %>
+                  </ul>
+                <% } %>
+              </li>
+            <% }); %>
+          </ul>
+        </li>
+        <!-- Templates Dropdown  -->
+        <li class="has-dropdown">
+          <a href="/elements/">Templates</a>
+          <ul class="dropdown">
+            <% sections.templates.forEach(function( val, index ) { %>
+              <% hasDropdown = val.items && val.items.length; %>
+              <li <% if ( hasDropdown ) { %> class="has-dropdown" <% } %>>
+                <a href="/elements/<%= encodeURIComponent( val.name ) %>"><%- val.name %></a>
+                <% if ( hasDropdown ) { %>
+                  <ul class="dropdown">
+                    <li><label><%- val.name %></label></li>
+                    <!-- yes, I see the bad variable name -->
+                    <% val.items.forEach(function ( childVal, childIndex ) { %>
+                      <li>
+                        <a href="/elements/<%- encodeURIComponent( val.name ) %>/<%- encodeURIComponent( childVal ) %>/"><%- childVal %></a>
+                      </li>
+                    <% }); %>
+                  </ul>
+                <% } %>
+              </li>
+            <% }); %>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </nav>
+</div>
