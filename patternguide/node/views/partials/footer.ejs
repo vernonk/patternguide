@@ -3,43 +3,20 @@
     <!--Footer content-->
   </footer>
 
-  <%
-  var menuHtml = ""
-  function iterateMenu( obj ) {
-    menuHtml += "<ul>\n";
-    for ( var key in obj ) {
-      if ( obj.hasOwnProperty( key ) ) {
-        menuHtml += "<li>";
-        menuHtml += "<a href='#'>" + key + "</a>";
-        if ( Object.keys( obj[ key ] ).length ) {
-          menuHtml +
-          iterateMenu( obj[ key ] );
-        }
-        menuHtml += "</li>\n";
-      }
-    }
-    menuHtml += "</ul>";
-    return menuHtml;
-  }
-  %>
-
-  <div class="pg-offcanvas">
-
-    <button name="pg-trigger">PatternGuide</button>
-
-
-    <nav role="navigation" class="pg-global pg-slide">
-      <%- iterateMenu( helpers.nav.global ) %>
-    </nav>
-  </div>
-
-
-
   <script>window.pg.viewdata = <%- ( data ) ? JSON.stringify( data ) : {} %>;</script>
 
   <!-- DO NOT USE JQUERY UNLESS YOU NEED IT. SERIOUSLY. -->
+  <!-- BEING LAZY... Want to get something usable to public ASAP, and work together with community to build appropriate style guide themeing and such -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+
+  <script src="/appsets/bower/foundation/js/foundation.min.js"></script>
+  <script src="/appsets/bower/foundation/js/foundation/foundation.topbar.js"></script>
+
+  <script>
+    $(document).foundation();
+  </script>
 
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
   <script>
