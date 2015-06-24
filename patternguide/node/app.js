@@ -4,7 +4,7 @@ var express = require( "express" ),
     cons = require( "consolidate" ),
 		pathToRoot = path.join( __dirname, "..", ".." ),
     pgConfig = require( path.join( pathToRoot, "config/patternguide" ) ),
-    routePrefix = ( /\/$/.test( pgConfig.routePrefix ) ) ? pgConfig.routePrefix : pgConfig.routePrefix + "/",
+    routePrefix = ( /\/$/.test( pgConfig.routePrefix ) ) ? pgConfig.routePrefix : pgConfig.routePrefix,
 		cliopts, localizeddirname = pgConfig.proxyHost;
 
 // global patternguide var available throughout
@@ -31,15 +31,15 @@ patternguide
   .use( express.static( path.join( pathToRoot, "dist" ) ) )
   .use( express.static( path.join( pathToRoot, "src" ) ) )
   .use( express.static( path.join( pathToRoot, "sandbox" ) ) )
-  .use( path.join( routePrefix, "appsets" ), express.static( path.join( __dirname, ".." ) ) )
-  .use( path.join( routePrefix, "api" ), require( path.join( __dirname, "routes/api-core" ) ) )
-  .use( routePrefix, require( path.join( __dirname, "routes/home" ) ) )
-  .use( path.join( routePrefix, "elements" ), require( path.join( __dirname, "routes/elements" ) ) )
-  .use( path.join( routePrefix, "modules" ), require( path.join( __dirname, "routes/elements" ) ) )
-  .use( path.join( routePrefix, "patterns" ), require( path.join( __dirname, "routes/elements" ) ) )
-  .use( path.join( routePrefix, "layouts" ), require( path.join( __dirname, "routes/elements" ) ) )
-  .use( path.join( routePrefix, "wires" ), require( path.join( __dirname, "routes/elements" ) ) )
-  .use( path.join( routePrefix, "comps" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( "/", routePrefix, "appsets" ), express.static( path.join( __dirname, ".." ) ) )
+  .use( path.join( "/", routePrefix, "api" ), require( path.join( __dirname, "routes/api-core" ) ) )
+  .use( path.join( "/", routePrefix ), require( path.join( __dirname, "routes/home" ) ) )
+  .use( path.join( "/", routePrefix, "elements" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( "/", routePrefix, "modules" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( "/", routePrefix, "patterns" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( "/", routePrefix, "layouts" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( "/", routePrefix, "wires" ), require( path.join( __dirname, "routes/elements" ) ) )
+  .use( path.join( "/", routePrefix, "comps" ), require( path.join( __dirname, "routes/elements" ) ) )
   .use( "*", require( path.join( __dirname, "./routes/reverse-proxy" ) ) );
 
 module.exports = patternguide;

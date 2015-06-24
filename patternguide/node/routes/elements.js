@@ -7,7 +7,8 @@ var path = require( "path" ),
     router = express.Router(),
     config = patternguide.get( "config" ),
     baseUrl = config.baseUrl,
-    baseApiUrl = baseUrl + "/api/elements/",
+    routePrefix = "/" + config.routePrefix,
+    baseApiUrl = baseUrl + routePrefix + "/api/elements/",
     viewHelpers = require( path.join( __dirname, "..", "utils/view-helpers" ) );
 
 // /elements
@@ -94,6 +95,8 @@ router.post( /([A-Za-z0-9\-_]+)(?:\/)?([A-Za-z0-9\-_]+)?(?:\/)?/, function ( req
   }
 
 });
+
+
 
 
 /**************************************

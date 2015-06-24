@@ -13,6 +13,7 @@ module.exports = {
   // this is useful if your site directories conflict with
   // patternguide (e.g. layouts, patterns, etc )
   routePrefix: "", // default 'patternguide' <- allows for reverseproxy to serve homepage
+  routePrefix: "patternguide", // default 'patternguide' <- allows for reverseproxy to serve a homepage
 
   // what templating engine will be used for partials and layouts?
   // e.g. lodash, underscore, handlebars, hogan, ejs

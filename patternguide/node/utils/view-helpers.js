@@ -4,9 +4,7 @@ var viewHelpers = {},
     glob = require( "glob" ),
     deasync = require( "deasync" ),
     dirParsers = require( path.join( __dirname, "..", "core", "dir-parsers.js" ) ).get,
-    config = patternguide.get( "config" ),
-    baseUrl = config.baseUrl,
-    baseApiUrl = baseUrl + "/api/";
+    config = patternguide.get( "config" );
 
 // build out global navigation
 viewHelpers.api = {};
