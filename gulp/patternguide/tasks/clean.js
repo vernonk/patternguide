@@ -32,6 +32,7 @@ module.exports = gulp.task( "clean", [], function ( cb ) {
   argv.dist && dirtyrooms.push( "dist/**/*" );
   argv.localized && dirtyrooms.push( "localized/**/*" );
   argv.sandbox && dirtyrooms.push( "sandbox/**/*" );
+  argv.all && dirtyrooms.push("dist/**/*", "localized/**/*", "sandbox/**/*");
 
   // now let's doublecheck and confirm we want to clean these things
   promptSchema.push({
