@@ -19,6 +19,8 @@ router.get( "*", function ( req, res ) {
 
   console.log( "Reverse Proxying: ".green + proxyProtocol + proxyHost + req.originalUrl );
 
+	// TODO: Have to figure out how to make requests to things like a .php be converted to return the .html version in a localized folder
+
   // res.send( response );
   // this should look for a proxyhost flag
   // this value should be domain name that we want to preview against
