@@ -8,7 +8,7 @@ can't sustain the needs of modern design and development organizations.
 
 PatternGuide is a workflow tool and style guide generator. The tool is geared to enhance the collaboration efforts between designers and developers, provide a streamlined local development experience, and create a well-structured and maintainable pattern library.
 
-** [PatternGuide Documentation Syntax](https://github.com/vernonk/patternguide/wiki)
+**[PatternGuide Documentation Syntax](https://github.com/vernonk/patternguide/wiki)**
 
 ## Sections
 
