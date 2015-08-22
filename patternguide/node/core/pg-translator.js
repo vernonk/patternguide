@@ -246,9 +246,9 @@ translator.signature = function ( comment ) {
       // splut[1] = _signature_
       // splut[2] = _description_
       objStr += '{';
-      objStr += 'signature: ' + JSON.stringify( splut[ 1 ] ) + ', description: ' + JSON.stringify( splut[ 2 ] );
+      objStr += '"signature": ' + JSON.stringify( splut[ 1 ] ) + ',' +
+                '"description": ' + JSON.stringify( splut[ 2 ] );
       objStr += '}';
-      objStr += ( i ? "," : "" ) + JSON.stringify( val );
     });
     objStr += '] }';
     try {
