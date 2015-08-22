@@ -234,7 +234,31 @@ example:
 @signature "new Car( opts )" "Creates a new instance of a car."
 **/
 translator.signature = function ( comment ) {
-  
+  var pattern = /@signature[^\n]+/g,
+      matches = comment.match( pattern ),
+      objStr = '', obj = {};
+
+  if ( matches ) {
+    objStr += '{ "signatures": [ '
+    matches.forEach(function ( val, i ) {
+      var splut = val.split( '"' );
+      // splut[0] = @signature
+      // splut[1] = _signature_
+      // splut[2] = _description_
+      objStr += '{';
+      objStr += 'signature: ' + JSON.stringify( splut[ 1 ] ) + ', description: ' + JSON.stringify( splut[ 2 ] );
+      objStr += '}';
+      objStr += ( i ? "," : "" ) + JSON.stringify( val );
+    });
+    objStr += '] }';
+    try {
+      return JSON.parse( objStr );
+    } catch ( e ) {
+      console.log( "Bad syntax found for @signature token: " + ( ( matches.length > 1 ) ? "Multiple Matches Found" : matches[ 0 ] ) );
+      obj.signatures = "Bad syntax found for @signature token: " + ( ( matches.length > 1 ) ? "Multiple Matches Found" : matches[ 0 ] );
+      return obj;
+    }
+  }
 }
 
 /**
