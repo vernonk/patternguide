@@ -314,7 +314,7 @@ translator.authors = function ( comment ) {
 **/
 translator.translate = function ( comment ) {
   var dictionary = Object.keys( translator ),
-      translation = {},
+      translations = [],
       tokensFound = comment.match( /@[a-z]+/g );
 
   // let's store the tokens found & remove ourselves from the dictionary
@@ -323,14 +323,18 @@ translator.translate = function ( comment ) {
     tokensFound = tokensFound.map(function ( val ) {
       return val.replace( "@", "" );
     });
-    translation.tokens = tokensFound;
-
+    // translations may be an array, but it's still just an object. :)
+    // store a static tokens property to see all the tokens from this comment
+    translations.tokens = tokensFound;
+    // iterate through all the tokens, calling the matching translator method
+    // where appropriate and then pushing the result into the overall set
+    // of returned translations
     tokensFound.forEach(function ( token ) {
-      translator[ token ] && _.extend( translation, translator[ token ]( comment ) );
+      translator[ token ] && translations.push( translator[ token ]( comment ) );
     });
   }
-  console.log( "Final simple Translation\n============\n", translation );
-  return translation;
+  console.log( "Final simple Translations\n============\n", translations );
+  return translations;
 };
 
 
