@@ -889,19 +889,6 @@ translator.authorsPg = function ( comment, index ) {
   }
 }
 
-/*
-here's the problem
-two tokens of the same in one passed comment
-each time it gets added, it's going to push to the overall component array
-as something that needs to get re-rendered.
-each time... look at the double output from the constructors array
-need to pass in which index of the multiple we're looking at right?
-otherwise the render order of components gets off
-
-obj { "constructors": [ {"name": "Car","displayName": ""},{"name": "Car","displayName": "Car Constructor Function"}] }
-obj { "constructors": [ {"name": "Car","displayName": ""},{"name": "Car","displayName": "Car Constructor Function"}] }
-*/
-
 /**
 * Provide a single interface to pass a comment to in order to have it translated
 * via the PatternGuide set of dictionary methods.
@@ -930,7 +917,7 @@ translator.translate = function ( comment ) {
       translator[ tokenObj.token + "Pg" ] && translations.push( translator[ tokenObj.token + "Pg" ]( comment, tokenObj.index ) );
     });
   }
-  console.log( "Final simple Translations\n============\n", translations );
+  // console.log( "Final simple Translations\n============\n", translations );
   return translations;
 };
 
