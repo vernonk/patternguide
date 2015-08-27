@@ -31,10 +31,6 @@ translator.bodyPg = function ( comment, index ) {
   index = ( typeof index === "number" ) ? index : 0;
   if ( matches ) {
     objStr += '{ "body": ';
-    // splut = matches[ index ] && matches[ index ].split( '"' ).filter(function ( val, i ) {
-    //   console.log( "filterin?", val );
-    //   return ( i === 0 || !val.trim() ) ? false : true;
-    // });
     splut = matches[ index ] && matches[ index ] || "";
     objStr += '{';
     objStr += '"markdown": ' + JSON.stringify( splut ) + ',' +
@@ -494,6 +490,87 @@ translator.ticketPg = function ( comment, index ) {
   } catch ( e ) {
     console.log( "Bad syntax found for @ticket token: " + ( matches[ index ] && matches[ index ] ) );
     obj.tickets = "Bad syntax found for @ticket token: " + ( matches[ index ] && matches[ index ] );
+    return obj;
+  }
+};
+
+/**
+@variable
+
+Details information about a variable
+
+parameters  | type               | default  | description
+----------  | ------------------ | -------- | ----------------------
+name          | String             | `""`     | Variable name
+type         | String             | `""`   | Specify any expected variable type.
+description        | String             | `""`     | Brief description to describe the variable.
+
+example:
+@variable "activityChecker" "Stores reference to activityChecker module."
+**/
+translator.variablePg = function ( comment, index ) {
+  var pattern = /@variable[^\n]+/g,
+      matches = comment.match( pattern ),
+      objStr = '', obj = {}, splut;
+  // make sure we have an actual number to go against
+  index = ( typeof index === "number" ) ? index : 0;
+  if ( matches ) {
+    objStr += '{ "variables": ';
+    splut = matches[ index ] && matches[ index ].split( '"' ).filter(function ( val, i ) {
+      return ( i === 0 || !val.trim() ) ? false : true;
+    });
+    objStr += '{';
+    objStr += '"name": ' + JSON.stringify( splut[ 0 ] || "" ) + ',' +
+              '"type": ' + JSON.stringify( splut[ 1 ] || "" ) + ',' +
+              '"description": ' + JSON.stringify( splut[ 2 ] || "" );
+    objStr += '}';
+    objStr += '}';
+  }
+  try {
+    return JSON.parse( objStr );
+  } catch ( e ) {
+    console.log( "Bad syntax found for @variable token: " + ( matches[ index ] && matches[ index ] ) );
+    obj.variables = "Bad syntax found for @variable token: " + ( matches[ index ] && matches[ index ] );
+    return obj;
+  }
+};
+
+/**
+@version
+
+Details version information
+
+parameters  | type               | default  | description
+----------  | ------------------ | -------- | ----------------------
+version          | String             | `""`     | Version number
+name         | String             | `""`   | Version name
+
+example:
+@version "1.2.4"
+@version "2.0" "The Web"
+**/
+translator.versionPg = function ( comment, index ) {
+  var pattern = /@version[^\n]+/g,
+      matches = comment.match( pattern ),
+      objStr = '', obj = {}, splut;
+  // make sure we have an actual number to go against
+  index = ( typeof index === "number" ) ? index : 0;
+  if ( matches ) {
+    objStr += '{ "version": ';
+    splut = matches[ index ] && matches[ index ].split( '"' ).filter(function ( val, i ) {
+      return ( i === 0 || !val.trim() ) ? false : true;
+    });
+    objStr += '{';
+    objStr += '"version": ' + JSON.stringify( splut[ 0 ] || "" ) + ',' +
+              '"name": ' + JSON.stringify( splut[ 1 ] || "" );
+    objStr += '}';
+    objStr += '}';
+  }
+  try {
+    return JSON.parse( objStr );
+  } catch ( e ) {
+    console.log( "Bad syntax found for @version token: " + ( matches[ index ] && matches[ index ] ) );
+    obj.version = "Bad syntax found for @version token: " + ( matches[ index ] && matches[ index ] );
     return obj;
   }
 };
