@@ -14,18 +14,6 @@ var fs = require( "fs" ),
     translator = require( "./pg-translator" ),
     parser = {};
 
-// @something single line comment
-// @something[
-//  { a: "something", b: 'else' }
-// ]
-
-/*
-* @something valuevalue
-* @something valuevalue
-* @something valuevalue
-* @something valuevalue
-*/
-
 /**
 * @syntax | String
 *   - Possible values: "js", "css", "sass", "scss", "less", "stylus", "html"
@@ -35,7 +23,8 @@ var fs = require( "fs" ),
 * Parsers:
 * To parse different document syntaxes, we use various parsers:
 *   * Esprima for parsing JavaScript-type files
-*   * CSS (reworkcss) for parsing CSS-type files
+*   * CSS - Simple regex based for now while determining best way to parse
+*           various preprocessor formats.
 *   * parse5 for parsing HTML documents and fragments
 */
 parser.parse = function ( syntax, str, filepath ) {
@@ -60,51 +49,44 @@ parser.parse = function ( syntax, str, filepath ) {
   }
 };
 
-// take a string and return either false if no patternguide style syntax is found
-// or return a common object containing a something object or array that c
-parser.findPgSyntax = function ( str ) {
-
-};
-
 // parse js for patternguide style comments
 function jsParser ( str, filepath ) {
   var comments = esprima.tokenize( str, { comment: true } ).comments;
-  return comments.comments;
+  comments.forEach(function ( comment, i ) {
+    comments[ i ] = translator.translate( comment.value );
+  });
+  return comments;
 }
 
 // parse css for patternguide style comments
 // simple for now that just parses general css style comments with a regex
 // was using the `css` module but want to be agnostic on filetype as much as possible
 // and base off of expected syntax in terms of comment styles to accept
-// TODO: blow this out a bit to allow for preprocessor style single line comments as well
 function cssParser ( str, filepath ) {
   var cssRegex = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g, // http://www.w3.org/TR/CSS21/grammar.html
       theComments = str.match( cssRegex );
-  return theComments;
+  if ( theComments ) {
+    theComments.forEach(function ( comment, i ) {
+      theComments[ i ] = translator.translate( comment );
+    });
+    return { err: null, data: { comments: theComments } };
+  } else {
+    return { err: null, data: { comments: null } };
+  }
 }
 
 // parse html for patternguide style comments
 function htmlParser ( str, filepath ) {
+  var comments = [],
+      parse5Parser = new parse5.SimpleApiParser({
+        comment: function ( str ) {
+          comments.push( translator.translate( str ) );
+        }
+      });
+  // send our view through the parser
+  parse5Parser.parse( str );
+  return { err: null, data: { comments: comments } };
 }
-
-// From dir-parsers where we get the view and render it
-// Need to know what parser to use to parse the view for style guide comments
-// Can we use the templatingFileExt from the patterguide.get( "config" ) to determine
-// if it should use the htmlParser or jsParser?
-// Can we just run it through the htmlParser and get an error back? If so, then just toss it in the
-// js parser?
-// view: function ( cb ) {
-//   var fp = path.join(pathFromRoot, "view", item + "." + patternguide.get("config").templatingFileExt),
-//       helpers = require( "../utils/view-helpers" );
-//   fs.readFile(fp, {encoding: "utf8"}, function (err, data) {
-//     response.err = err;
-//     response.view = {
-//       src: data,
-//       rendered: helpers.render( "#PGSG-" + fp )
-//     };
-//     cb(err, data);
-//   });
-// }
 
 parser.get = function ( syntax, filepath ) {
   // this request will give us a clean filepath and the syntax so we know what to parse
