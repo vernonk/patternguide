@@ -18,9 +18,9 @@ PatternGuide is a workflow tool and style guide generator. The tool is geared to
 * [Reverse Proxy Debugging & Prototyping](#reverse-proxy-debugging--prototyping)
 * [Individual Workflow Tasks](#individual-workflow-tasks)
 
-## Pre-Use Dependencies
+## Pre-Install
 
-* Latest io.js or Node.js
+* Built against node.js v4.2.2
 * `npm install` (depending on your location/proxy/"situation" you may need sudo)
 
 ## Development In-Progress
