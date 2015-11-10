@@ -1,33 +1,22 @@
 {
   "name": "patternguide",
-  "version": "0.0.0",
-  "description": "A living style guide and development workflow toolset.",
+  "version": "0.0.2",
+  "description": "Pattern Library generator and local development workflow.",
   "author": "Vernon Kesner <vernonkesner@gmail.com>",
   "contributors": [
-    {
-      "name": "Vernon Kesner",
-      "email": "vernonkesner@gmail.com"
-    }
+    "Victor Aponte <victoraponte@gmail.com>"
+  ],
+  "license": "MIT",
+  "respository": "vernonk/patternguide",
+  "homepage": "http://patternguide.io",
+  "files": [
+    "index.js",
+    "lib",
+    "bin",
+    "gulp"
   ],
   "bin": {
-    "patternguide": "./bin/patternguide"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": "./config/browserify-shim.js",
-  "scripts": {
-    "test": "echo use this command to run application unit tests.",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vernonk/patternguide"
-  },
-  "bugs": {
-    "url": "https://github.com/vernonk/patternguide"
+    "patternguide": "./bin/patternguide.js"
   },
   "keywords": [
     "style guide",
@@ -35,11 +24,11 @@
     "workflow"
   ],
   "dependencies": {
+    "archy": "^1.0.0",
     "async": "^0.9.0",
-    "body-parser": "^1.12.2",
+    "bower": "^1.3.12",
     "browser-sync": "^2.4.0",
-    "cli": "^0.6.5",
-    "colors": "^1.0.3",
+    "chalk": "^1.1.1",
     "consolidate": "^0.11.0",
     "deasync": "0.0.10",
     "del": "^1.1.1",
@@ -48,18 +37,6 @@
     "express": "^4.12.3",
     "fs-extra": "^0.18.3",
     "glob": "^5.0.3",
-    "inquirer": "^0.8.2",
-    "lodash": "^3.6.0",
-    "request": "^2.54.0",
-    "sync": "^0.2.5",
-    "yargs": "^3.8.0"
-  },
-  "license": "???--Not sure need to be sure pieces I need play right.",
-  "devDependencies": {
-    "bower": "^1.3.12",
-    "browserify": "^9.0.3",
-    "browserify-shim": "^3.8.3",
-    "chai": "^3.4.0",
     "gulp": "^3.8.11",
     "gulp-imagemin": "^2.2.1",
     "gulp-jshint": "^1.10.0",
@@ -68,19 +45,25 @@
     "gulp-scss-lint": "^0.1.11",
     "gulp-uglify": "^1.1.0",
     "hanson": "^1.1.1",
-    "hson-loader": "^1.0.0",
-    "json-loader": "^0.5.1",
-    "jsx-loader": "^0.13.2",
-    "markdown-loader": "^0.1.2",
+    "inquirer": "^0.8.2",
+    "lodash": "^3.6.0",
     "marked": "^0.3.3",
-    "mocha": "^2.3.3",
-    "node-jsx": "^0.13.3",
-    "node-libs-browser": "^0.5.2",
     "node-sass": "^3.1.2",
+    "orchestrator": "^0.3.7",
     "partition-bundle": "^1.0.14",
+    "pretty-hrtime": "^1.0.1",
     "react": "^0.13.3",
-    "sass-loader": "^1.0.2",
-    "webpack": "^1.9.8",
-    "webpack-dev-middleware": "^1.0.11"
+    "request": "^2.54.0",
+    "sync": "^0.2.5",
+    "vinyl-fs": "^2.2.1",
+    "yargs": "^3.8.0"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "browserify-shim": "^3.8.3",
+    "chai": "^3.4.0",
+    "coveralls": "^2.11.4",
+    "mocha": "^2.3.3",
+    "mocha-lcov-reporter": "^1.0.0"
   }
 }
