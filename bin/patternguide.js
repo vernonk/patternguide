@@ -1,70 +1,130 @@
 #!/usr/bin/env node --harmony
+/*
+When I run patternguide what happens out of the box? No flags.
+
+ - Style guide server started, No Development Workflow
+ - View only mode, Intended for standlone viewing & sharing.
+
+Additional states:
+
+  --develop
+    Enables the full development workflow: Reverse Proxy (using default
+    from configuration or provided flag), Watcher
+
+  --design
+    Enable designer tools
+
+  --build
+    Enable build of pattern library style guide to static html (and others)
+    Could be "export" with --export-type and --export-path flags.
+
+Options:
+
+  --proxyhost
+    Determines what host the reverse proxy should reference
+
+  --port
+    Change the default port
+
+  --verbose
+    Enable verbose mode
+
+  --browsersync
+    Enable browsersync server
+
+  --livereload
+    Enable livereload server
+*/
 var fs = require( "fs" ),
     path = require( "path" ),
-    bs = require( "browser-sync" ).create(),
-    cli = require( "cli" ).enable( "status" ),
     gulp = require( "gulp" ),
+    yargv = require( "yargs" ),
     spawn = require( "child_process" ).spawn,
-    app = require( path.join( __dirname, "..", "patternguide/node/app" ) ),
-    server, children = {};
+    chalk = require( "chalk" ),
+    app = require( path.join( __dirname, "..", "../lib/node/app" ) ),
+    handleIo = require( "./lib/node/utils/io-output.js" ),
+    server, children = {},
+    options = {
+      "b": {
+        alias: "build",
+        describe: "Build a static version of the style guide.",
+        nargs: 1
+      },
+      "bs": {
+        alias: "browsersync",
+        describe: "Enable BrowserSync server",
+        type: "boolean"
+      },
+      "lr": {
+        alias: "livereload",
+        describe: "Enable LiveReload server",
+        type: "boolean"
+      },
+      "m": {
+        alias: "minify",
+        describe: "Perform an initial minification task on startup.",
+        nargs: 1
+      },
+      "p": {
+        alias: "port",
+        describe: "Start the server on this port.",
+        nargs: 1,
+        default: '3000',
+        type: 'string'
+      },
+      "ph": {
+        alias: "proxyhost",
+        describe: "Host to use as reverse proxy, overrides PatternGuide config",
+        nargs: 1,
+        type: "string"
+      },
+      "v": {
+        alias: "verbose",
+        describe: "Verbose mode",
+        nargs: 1
+      }
+    };
 
-require( "colors" ); // no need to store in variable, since we just reference color props
+// pass in our options and get the arguments object back.
+yargv = yargv.usage( "Usage: patternguide" ).options( options ).argv;
+
+if ( yargv.verbose ) patternguide.set( "config" ).verbose = true;
+if ( yargv.proxyhost ) patternguide.set( "config" ).proxyhost = yargv.proxyhost;
+
+patternguide.set( "config" ).cliargs = yargv;
+
+function spawnChild ( opts ) {
+  let isVerbose = patternguide.get( "config" ).verbose;
+  // this is going to be small util module that is included
+  // what is opts?
+  /*
+    opts.
+          name => property name (e.g. children.watchers)
+          command => child_process prop
+          args => child_process prop
+  */
+  children[ opts.name ] = spawn( opts.command, opts.args );
+  children[ opts.name ].stdout.on( "data", function ( data ) {
+    data = data.toString();
+    var modifiedFile, modifiedFileType;
+    if ( isVerbose ) {
+      console.log( chalk.green( "OK:" ), data );
+    } else if ( !handleIo.isMetaOutput( data ) ) {
+        console.log( chalk.green( "OK:" ), data );
+      }
+    }
+  });
+}
+
+
+//////// deleted lines are below here... removing as I go.
+
+
 
 // patternguide cli options
-cli.parse({
-  build: [ "b", "Build a static version of the library" ],
-  dumb: [ "d", "Disable file watch mode (js, scss)" ], // dumb in the sense it doesn't know what's going on
-  minify: [ "m", "Perform an initial gulp minify" ],
-  port: [ "p", "Start server on this port", "number", 3000 ],
-  proxyHost: [ "ph", "Host to use as reverse proxy, overrides PatternGuide config", "string" ],
-  verbose: [ "v", "Verbose mode (expanded logging)"]
-});
 
 // set up our cli
 cli.main(function ( args, opts ) {
-
-  if ( opts.verbose ) patternguide.set( "config" ).verbose = false;
-  if ( opts.proxyHost ) patternguide.set( "config" ).proxyHost = opts.proxyHost;
-
-  patternguide.set( "config" ).cliargs = args;
-  patternguide.set( "config" ).cliopts = opts;
-
-  // take an array of paths from root to create
-  function makedirs( arr ) {
-    arr.forEach(function ( val ) {
-      try {
-        fs.statSync( path.join( __dirname, val ) );
-        opts.verbose && cli.ok( val + " already exists, doing nothing." );
-      } catch ( e ) {
-        opts.verbose && cli.ok( "Making " + val + " directory now." );
-        fs.mkdirSync( path.join( __dirname, val ) );
-      }
-    });
-  }
-
-  // simple function to determine if stdout is Gulp meta info that we only
-  // want to include when we are in verbose mode.
-  function isGulpMetaOutput ( output ) {
-    output = output.toString();
-    // strings use indexOf, regex uses test
-    var gulpMetaPatterns = [
-      "Starting",
-      "Finished",
-      "Using gulpfile"
-    ], i, l;
-    for ( i = 0, l = gulpMetaPatterns.length; i < l; i++ ) {
-      if ( typeof gulpMetaPatterns[ i ] === "string" ) {
-        if ( output.indexOf( gulpMetaPatterns[ i ] ) !== -1 ) {
-          return true;
-        }
-      } else if ( gulpMetaPatterns[ i ].test( output ) ) {
-        return true;
-      }
-    }
-  }
-
-  // make sure dist, localized and sandbox dirs exist
-  makedirs( [ "../localized", "../dist", "../sandbox" ] );
 
   if ( !opts.dumb ) {
     children.watchers = spawn( "gulp", [ "watchers" ] );
@@ -74,7 +134,7 @@ cli.main(function ( args, opts ) {
       if ( opts.verbose ) {
         cli.ok( data );
       } else {
-        if ( !isGulpMetaOutput( data ) ) {
+        if ( !handleIo.isMetaOutput( data ) ) {
           cli.ok( data );
         }
       }
