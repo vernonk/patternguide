@@ -1,4 +1,10 @@
-# PatternGuide
+PatternGuide
+---
+
+**Update (May 7, 2016):** I am working on restructuring the overall PatternGuide ecosystem. A single product is way too narrow to try and solve the problem of an end-to-end Design System. To that end, the initial focus will be on the Front-end Development workflow portion (https://github.com/vernonk/patternguide-dev/). This will be a local development environment, geared towards production, staging, model, or development emulation utilizing local resources. This will open up the doors of ES2015 (ES6), Sass, and much more to developers in an "easy to digest" environment. The [PatternGuide documentation syntax](https://github.com/vernonk/patternguide/wiki) will be an active part of this environment as well, feeding the living style guide product from the overall end-to-end UX Design System.
+
+---
+
 
 Responsive Design has completely revolutionized the way that design and development
 teams should approach collaboration. The waterfall methodologies of the past simply
